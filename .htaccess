@@ -1,0 +1,19 @@
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+Options -Indexes
+<FilesMatch "\.(sql|log|md)$">
+  Require all denied
+</FilesMatch>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/css application/javascript application/json text/html
+</IfModule>
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+</IfModule>
+<IfModule mod_php.c>
+  php_flag display_errors off
+</IfModule>
